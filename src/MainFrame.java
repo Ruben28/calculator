@@ -8,25 +8,26 @@ import java.util.Locale;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author victor
  */
 public class MainFrame extends javax.swing.JFrame {
 
-    private enum OperatorType {NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE}
+    private enum OperatorType {
+        NONE, ADD, SUBTRACT, MULTIPLY, DIVIDE
+    }
 
     private double accumulator, operand;
     private OperatorType operator;
     private char decimalSeparator;
-    private boolean erase; 
-    
+    private boolean erase;
+
     public MainFrame() {
         initComponents();
         initMyFields();
     }
-    
+
     public void initMyFields() {
         accumulator = 0;
         operand = 0;
@@ -34,12 +35,12 @@ public class MainFrame extends javax.swing.JFrame {
         erase = false;
         decimalSeparator = getDecimalSeparator();
     }
-    
+
     public char getDecimalSeparator() {
         DecimalFormatSymbols dfs = new DecimalFormatSymbols(Locale.getDefault());
         return dfs.getDecimalSeparator();
     }
-    
+
     public void eraseIfNeedAndWriteNumber(String numberStr) {
         if (erase) {
             textFieldDisplay.setText("");
@@ -47,10 +48,10 @@ public class MainFrame extends javax.swing.JFrame {
         }
         textFieldDisplay.setText(textFieldDisplay.getText() + numberStr);
     }
-    
+
     private void calculateResult() {
         operand = Double.parseDouble(textFieldDisplay.getText());
-        switch(operator) {
+        switch (operator) {
             case ADD:
                 accumulator += operand;
                 break;
@@ -68,17 +69,18 @@ public class MainFrame extends javax.swing.JFrame {
                 break;
         }
     }
-    
+
     private void displayResult() {
         String s = "" + accumulator;
         if (s.contains(".")) {
             s = s.replaceAll("0 + $", "");
-            s = s.replaceAll(".$", "");
+            s = s.replaceAll("\\.$", "");
         }
         textFieldDisplay.setText(s);
         //BigDecimal number = new BigDecimal(accumulator);  
         //textFieldDisplay.setText(number.stripTrailingZeros().toPlainString());
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -371,34 +373,51 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btn0ActionPerformed
 
     private void btnCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCActionPerformed
-       initMyFields();
-       textFieldDisplay.setText("");
+        initMyFields();
+        textFieldDisplay.setText("");
     }//GEN-LAST:event_btnCActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        erase = true;
-        calculateResult();
-        displayResult();
-        operator = OperatorType.ADD;
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnSubtractActionPerformed
-
-    private void btnMultiplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplyActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnMultiplyActionPerformed
-
-    private void btnDivideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivideActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDivideActionPerformed
-
-    private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualActionPerformed
         if (!erase) {
             erase = true;
             calculateResult();
             displayResult();
+            operator = OperatorType.ADD;
+        }
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void btnSubtractActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubtractActionPerformed
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.SUBTRACT;
+        }
+    }//GEN-LAST:event_btnSubtractActionPerformed
+
+    private void btnMultiplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMultiplyActionPerformed
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.MULTIPLY;
+        }
+    }//GEN-LAST:event_btnMultiplyActionPerformed
+
+    private void btnDivideActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDivideActionPerformed
+        if (!erase) {
+            erase = true;
+            calculateResult();
+            displayResult();
+            operator = OperatorType.DIVIDE;
+        }
+    }//GEN-LAST:event_btnDivideActionPerformed
+
+    private void btnEqualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEqualActionPerformed
+        if (!erase) {
+            calculateResult();
+            displayResult();
+            operator = OperatorType.NONE;
         }
     }//GEN-LAST:event_btnEqualActionPerformed
 
@@ -406,7 +425,7 @@ public class MainFrame extends javax.swing.JFrame {
         String s = textFieldDisplay.getText();
         if (s.length() > 0) {
             String subS = s.substring(0, s.length() - 1);
-        textFieldDisplay.setText(subS);
+            textFieldDisplay.setText(subS);
         }
     }//GEN-LAST:event_btnBackActionPerformed
 
